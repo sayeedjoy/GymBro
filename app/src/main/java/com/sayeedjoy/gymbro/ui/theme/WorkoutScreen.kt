@@ -36,6 +36,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import com.sayeedjoy.gymbro.R
 import java.time.format.DateTimeFormatter
 
 
@@ -57,7 +59,8 @@ fun WorkoutScreen() {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
-                            imageVector = Icons.Filled.PlayArrow,
+                            painter = painterResource(id = R.drawable.dumbbell),
+                            modifier = Modifier.size(34.dp),
                             contentDescription = "App Icon",
                             tint = MaterialTheme.colorScheme.primary
                         )
@@ -95,10 +98,11 @@ fun WorkoutScreen() {
                 text = "$currentDay, $formattedDate",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(bottom = 12.dp)
+//                modifier = Modifier.padding(bottom = 12.dp)
             )
-            Spacer(modifier = Modifier.padding( top = 16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             LazyColumn(
+                contentPadding = PaddingValues(top = 12.dp, bottom = 10.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(workoutList) { workout ->
@@ -138,7 +142,7 @@ fun WorkoutItemCard(workout: Workout, onCheckChange: (Boolean) -> Unit) {
                 )
                 Text(
                     text = workout.sets,
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary
                 )
             }
