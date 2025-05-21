@@ -45,6 +45,7 @@ import java.time.format.DateTimeFormatter
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun WorkoutScreen() {
+
     val workoutList = getWorkoutsForToday()
     val currentDay = LocalDate.now().dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ENGLISH)
     val today = LocalDate.now()
