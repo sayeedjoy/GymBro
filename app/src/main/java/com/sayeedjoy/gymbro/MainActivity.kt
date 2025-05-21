@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
+import com.sayeedjoy.gymbro.model.WorkoutViewModel
 import com.sayeedjoy.gymbro.ui.theme.GymBroTheme
 import com.sayeedjoy.gymbro.ui.theme.WorkoutScreen
 
@@ -51,11 +52,10 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier.fillMaxSize(),
                 color = backgroundColor
             ) {
-                WorkoutScreen()
+                WorkoutScreen(viewModel = WorkoutViewModel(this))
             }
         }
         }
     }
-
 }
 

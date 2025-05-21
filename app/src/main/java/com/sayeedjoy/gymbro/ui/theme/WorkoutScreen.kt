@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -14,39 +15,31 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.sayeedjoy.gymbro.data.getWorkoutsForToday
 import com.sayeedjoy.gymbro.model.Workout
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.material3.Icon
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.sayeedjoy.gymbro.R
+import com.sayeedjoy.gymbro.model.WorkoutViewModel
 import java.time.format.DateTimeFormatter
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun WorkoutScreen() {
+fun WorkoutScreen(viewModel: WorkoutViewModel) {
 
-    val workoutList = getWorkoutsForToday()
+    val workoutList = viewModel.workoutList
     val currentDay = LocalDate.now().dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ENGLISH)
     val today = LocalDate.now()
     val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM", Locale.ENGLISH)
@@ -99,7 +92,7 @@ fun WorkoutScreen() {
                 text = "$currentDay, $formattedDate",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary,
-//                modifier = Modifier.padding(bottom = 12.dp)
+              //modifier = Modifier.padding(bottom = 12.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn(
@@ -107,8 +100,8 @@ fun WorkoutScreen() {
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(workoutList) { workout ->
-                    WorkoutItemCard(workout = workout) {
-                        workout.checked = it
+                    WorkoutItemCard(workout = workout) { isChecked ->
+                        viewModel.toggleChecked(workout, isChecked)
                     }
                 }
             }
@@ -117,7 +110,10 @@ fun WorkoutScreen() {
 }
 
 @Composable
-fun WorkoutItemCard(workout: Workout, onCheckChange: (Boolean) -> Unit) {
+fun WorkoutItemCard(
+    workout: Workout,
+    onCheckChange: (Boolean) -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -133,8 +129,13 @@ fun WorkoutItemCard(workout: Workout, onCheckChange: (Boolean) -> Unit) {
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            verticalAlignment = Alignment.CenterVertically
         ) {
+            Checkbox(
+                checked = workout.checked,
+                onCheckedChange = onCheckChange
+            )
+            Spacer(modifier = Modifier.width(12.dp))
             Column {
                 Text(
                     text = workout.name,
@@ -147,20 +148,14 @@ fun WorkoutItemCard(workout: Workout, onCheckChange: (Boolean) -> Unit) {
                     color = MaterialTheme.colorScheme.primary
                 )
             }
-
-            Checkbox(
-                checked = workout.checked,
-                onCheckedChange = onCheckChange
-            )
         }
     }
 }
 
-
-
+/*
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 fun WorkOutPreview(){
     WorkoutScreen()
-}
+}*/

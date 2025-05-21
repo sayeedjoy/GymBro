@@ -7,7 +7,8 @@ import androidx.compose.runtime.setValue
 data class Workout(
     val name: String,
     val sets: String,
+    val checked: Boolean = false
     )
-{
+/*{
     var checked by mutableStateOf(false)
-}
+}*/
