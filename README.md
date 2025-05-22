@@ -1,7 +1,7 @@
 # 🏋️‍♂️ GymBro
 
 **GymBro** is a modern workout tracker app built using **Jetpack Compose**, designed to help users manage their gym sessions with daily routines, dark mode support, and a clean UI. 💪
-![Home Screen](https://www.shutterstock.com/image-photo/demo-text-message-magnifying-glass-600nw-2491336635.jpg)
+[![Untitled-design.png](https://i.postimg.cc/vBzvQLnd/Untitled-design.png)](https://postimg.cc/mzP9j9Vd)
 ---
 
 ## ✨ Features
