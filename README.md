@@ -3,7 +3,6 @@
 **GymBro** is a modern workout tracker app built using **Jetpack Compose**, designed to help users manage their gym sessions with daily routines, dark mode support, and a clean UI. 💪
 
 [![Untitled-design.png](https://i.postimg.cc/vBzvQLnd/Untitled-design.png)](https://postimg.cc/mzP9j9Vd)
----
 
 ## ✨ Features
 
@@ -25,7 +24,6 @@
   - Built using **Material 3** and Jetpack Compose.
   - Responsive layouts, elevation-less cards, and custom colors.
 
----
 
 ## 🧱 Tech Stack
 
@@ -35,7 +33,6 @@
 - 💾 Local storage (WorkoutCheckStateManager) for saving daily progress
 - 🧭 Navigation Compose
 
----
 
 ## 🏗 Architecture
 
