@@ -6,21 +6,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.sayeedjoy.gymbro.data.getWorkoutsForToday
-import com.sayeedjoy.gymbro.model.Workout
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
@@ -28,16 +18,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.sayeedjoy.gymbro.R
+import com.sayeedjoy.gymbro.model.Workout
 import com.sayeedjoy.gymbro.model.WorkoutViewModel
 import java.time.format.DateTimeFormatter
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun WorkoutScreen(viewModel: WorkoutViewModel) {
+fun WorkoutScreen(viewModel: WorkoutViewModel = viewModel(),
+                  navController: NavController) {
 
     val workoutList = viewModel.workoutList
     val currentDay = LocalDate.now().dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ENGLISH)
@@ -46,6 +38,7 @@ fun WorkoutScreen(viewModel: WorkoutViewModel) {
     val formattedDate = today.format(dateFormatter)
 
     Scaffold(
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
@@ -54,11 +47,11 @@ fun WorkoutScreen(viewModel: WorkoutViewModel) {
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.dumbbell),
-                            modifier = Modifier.size(34.dp),
+                            modifier = Modifier.size(28.dp),
                             contentDescription = "App Icon",
                             tint = MaterialTheme.colorScheme.primary
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = "GymBro",
                             style = MaterialTheme.typography.titleLarge,
@@ -74,35 +67,38 @@ fun WorkoutScreen(viewModel: WorkoutViewModel) {
                     titleContentColor = MaterialTheme.colorScheme.onSurface
                 )
             )
-        }
+        },
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
                 .fillMaxSize()
         ) {
             Text(
                 text = "Today's Workout",
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 4.dp)
+                modifier = Modifier.padding(bottom = 2.dp)
             )
             Text(
                 text = "$currentDay, $formattedDate",
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.primary,
-              //modifier = Modifier.padding(bottom = 12.dp)
+                color = MaterialTheme.colorScheme.primary
             )
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn(
-                contentPadding = PaddingValues(top = 12.dp, bottom = 10.dp),
+                contentPadding = PaddingValues(top = 12.dp, bottom = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(workoutList) { workout ->
-                    WorkoutItemCard(workout = workout) { isChecked ->
-                        viewModel.toggleChecked(workout, isChecked)
-                    }
+                    WorkoutItemCard(
+                        workout = workout,
+                        onCheckChange = { isChecked ->
+                            viewModel.toggleChecked(workout, isChecked)
+                        },
+                        showCheckbox = true // optional, true by default
+                    )
                 }
             }
         }
@@ -112,7 +108,8 @@ fun WorkoutScreen(viewModel: WorkoutViewModel) {
 @Composable
 fun WorkoutItemCard(
     workout: Workout,
-    onCheckChange: (Boolean) -> Unit
+    onCheckChange: (Boolean) -> Unit = {},
+    showCheckbox: Boolean = true
 ) {
     Card(
         modifier = Modifier
@@ -131,10 +128,12 @@ fun WorkoutItemCard(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Checkbox(
-                checked = workout.checked,
-                onCheckedChange = onCheckChange
-            )
+            if(showCheckbox) {
+                Checkbox(
+                    checked = workout.checked,
+                    onCheckedChange = onCheckChange
+                )
+            }
             Spacer(modifier = Modifier.width(12.dp))
             Column {
                 Text(
@@ -151,11 +150,3 @@ fun WorkoutItemCard(
         }
     }
 }
-
-/*
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview(showBackground = true)
-@Composable
-fun WorkOutPreview(){
-    WorkoutScreen()
-}*/

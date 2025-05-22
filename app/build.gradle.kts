@@ -49,36 +49,34 @@ android {
 
 
 dependencies {
-    // Material 3
+    // Material 3 & Compose
     implementation("androidx.compose.material3:material3:1.2.1")
-
-    // Compose Runtime & UI
-    implementation("androidx.activity:activity-compose:1.8.2")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-
-    // Compose Tooling (optional but helpful)
     implementation("androidx.compose.ui:ui-tooling-preview:1.5.4")
     debugImplementation("androidx.compose.ui:ui-tooling:1.5.4")
+    implementation("androidx.activity:activity-compose:1.8.2")
 
-    // Core AndroidX
-    implementation("androidx.core:core-ktx:1.12.0")
+    // Navigation
+    implementation("androidx.navigation:navigation-compose:2.7.5")
 
-    // Retrofit for network calls
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+
+    // DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    // Networking
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 
-// Coroutine support
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    // Core
+    implementation("androidx.core:core-ktx:1.12.0")
 
-// DataStore (Jetpack)
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-// Unit test
+    // Testing
     testImplementation("junit:junit:4.13.2")
-
-    // Android instrumented test
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-
 }
-

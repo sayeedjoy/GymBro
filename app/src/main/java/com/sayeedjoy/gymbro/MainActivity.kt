@@ -1,61 +1,77 @@
 package com.sayeedjoy.gymbro
 
-import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
+import com.sayeedjoy.gymbro.model.ThemeViewModel
 import com.sayeedjoy.gymbro.model.WorkoutViewModel
+import com.sayeedjoy.gymbro.model.WorkoutViewModelFactory
+import com.sayeedjoy.gymbro.navigation.MainNavGraph
+import com.sayeedjoy.gymbro.ui.theme.BottomNavigationBar
 import com.sayeedjoy.gymbro.ui.theme.GymBroTheme
-import com.sayeedjoy.gymbro.ui.theme.WorkoutScreen
 
+@RequiresApi(Build.VERSION_CODES.O)
 class MainActivity : ComponentActivity() {
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
-            GymBroTheme {
-            val view = LocalView.current
-            val window = (view.context as? Activity)?.window
-            val backgroundColor = MaterialTheme.colorScheme.background
-            val useDarkIcons = backgroundColor.luminance() > 0.5f
+            val themeViewModel: ThemeViewModel = viewModel()
+            GymBroTheme() {
+                val view = LocalView.current
+                val window = (view.context as ComponentActivity).window
+                val backgroundColor = MaterialTheme.colorScheme.background
+                val useDarkIcons = backgroundColor.luminance() > 0.5f
 
-            if (window != null) {
                 SideEffect {
-                    window.statusBarColor = backgroundColor.toArgb()
-                    window.navigationBarColor = backgroundColor.toArgb()
-
+                    WindowCompat.setDecorFitsSystemWindows(window, false)
                     WindowCompat.getInsetsController(window, view)?.apply {
                         isAppearanceLightStatusBars = useDarkIcons
                         isAppearanceLightNavigationBars = useDarkIcons
+                        window.statusBarColor = backgroundColor.toArgb()
+                        window.navigationBarColor = backgroundColor.toArgb()
                     }
                 }
+
+                val navController = rememberNavController()
+                val viewModel: WorkoutViewModel = viewModel(
+                    factory = WorkoutViewModelFactory(applicationContext)
+                )
+
+                Scaffold(
+                    bottomBar = {
+                        BottomNavigationBar(
+                            navController = navController,
+                            currentRoute = navController.currentBackStackEntry?.destination?.route
+                        )
+                    }
+                ) { innerPadding ->
+                    Box(modifier = Modifier.padding(innerPadding)) {
+                        MainNavGraph(
+                            navController = navController,
+                            viewModel = viewModel,
+                            themeViewModel = themeViewModel)
+                    }
+                }
+
             }
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = backgroundColor
-            ) {
-                WorkoutScreen(viewModel = WorkoutViewModel(this))
-            }
-        }
         }
     }
 }
-
