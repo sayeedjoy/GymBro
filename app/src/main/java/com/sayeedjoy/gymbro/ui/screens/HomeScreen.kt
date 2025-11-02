@@ -1,4 +1,4 @@
-package com.sayeedjoy.gymbro.ui.theme
+package com.sayeedjoy.gymbro.ui.screens
 
 import android.os.Build
 import androidx.annotation.RequiresApi

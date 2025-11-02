@@ -1,5 +1,5 @@
 // File: ui.theme/BottomNavItem.kt
-package com.sayeedjoy.gymbro.ui.theme
+package com.sayeedjoy.gymbro.navigation
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons

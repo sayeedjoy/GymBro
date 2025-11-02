@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
@@ -19,11 +18,10 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import com.sayeedjoy.gymbro.model.ThemeViewModel
 import com.sayeedjoy.gymbro.model.WorkoutViewModel
 import com.sayeedjoy.gymbro.model.WorkoutViewModelFactory
 import com.sayeedjoy.gymbro.navigation.MainNavGraph
-import com.sayeedjoy.gymbro.ui.theme.BottomNavigationBar
+import com.sayeedjoy.gymbro.navigation.BottomNavigationBar
 import com.sayeedjoy.gymbro.ui.theme.GymBroTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -33,7 +31,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val themeViewModel: ThemeViewModel = viewModel()
             GymBroTheme() {
                 val view = LocalView.current
                 val window = (view.context as ComponentActivity).window
@@ -67,7 +64,7 @@ class MainActivity : ComponentActivity() {
                         MainNavGraph(
                             navController = navController,
                             viewModel = viewModel,
-                            themeViewModel = themeViewModel)
+                            )
                     }
                 }
 

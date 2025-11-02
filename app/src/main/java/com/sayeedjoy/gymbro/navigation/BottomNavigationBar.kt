@@ -1,4 +1,4 @@
-package com.sayeedjoy.gymbro.ui.theme
+package com.sayeedjoy.gymbro.navigation
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
