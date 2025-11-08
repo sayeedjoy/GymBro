@@ -14,7 +14,8 @@
 
 # Java class files
 *.class
-
+.idea/
+.kotlin/
 # Generated files
 bin/
 gen/
