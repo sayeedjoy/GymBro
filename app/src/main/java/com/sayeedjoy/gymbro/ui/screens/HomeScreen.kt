@@ -76,35 +76,7 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun GymBroTopBar() {
-    val isDarkTheme = isSystemInDarkTheme()
-    val textColor = if (isDarkTheme) MaterialTheme.colorScheme.onBackground else Color.Black
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.dumbbell),
-            modifier = Modifier.size(32.dp),
-            contentDescription = "App Icon",
-            tint = Color.Unspecified
-        )
-        Spacer(Modifier.width(10.dp))
-        Text(
-            text = "GymBro",
-            style = MaterialTheme.typography.headlineMedium.copy(
-                fontWeight = FontWeight.Bold
-            ),
-            color = textColor
-        )
-    }
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
 private fun getGreeting(): String {
     val hour = LocalTime.now().hour
     return when {
@@ -142,7 +114,7 @@ fun WorkoutScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        GymBroTopBar()
+
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(

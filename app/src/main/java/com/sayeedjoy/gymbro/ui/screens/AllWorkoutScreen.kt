@@ -43,7 +43,7 @@ fun AllWorkoutScreen(viewModel: WorkoutViewModel) {
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        GymBroTopBar()
+
 
         LazyColumn(
             modifier = Modifier

@@ -89,7 +89,6 @@ fun WeightScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        GymBroTopBar()
 
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
