@@ -1,10 +1,8 @@
-// File: ui.theme/BottomNavItem.kt
 package com.sayeedjoy.gymbro.navigation
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,7 +21,7 @@ sealed class BottomNavItem(
     )
 
     object AllWorkouts : BottomNavItem(
-        "all_workouts", "All Workouts",
+        "all_workouts", "Workouts",
         {
             Icon(painterResource(R.drawable.dumbbell),
                 modifier = Modifier.size(20.dp),
@@ -31,12 +29,12 @@ sealed class BottomNavItem(
         }
     )
 
-    object Settings : BottomNavItem(
-        "settings", "Weight",
+    object Weight : BottomNavItem(
+        "weight", "Weight",
         {
-            Icon(painterResource(R.drawable.fitness_center_24px)
-                , modifier = Modifier.size(20.dp),
-                contentDescription = "Settings")
+            Icon(painterResource(R.drawable.fitness_center_24px),
+                modifier = Modifier.size(20.dp),
+                contentDescription = "Weight")
         }
     )
 }

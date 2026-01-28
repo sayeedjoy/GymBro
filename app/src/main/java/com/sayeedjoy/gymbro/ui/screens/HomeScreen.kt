@@ -91,7 +91,8 @@ private fun getGreeting(): String {
 @Composable
 fun WorkoutScreen(
     viewModel: WorkoutViewModel = viewModel(),
-    navController: NavController
+    navController: NavController,
+    onSettingsClick: () -> Unit = {}
 ) {
     val workoutList = viewModel.workoutList
     val today = LocalDate.now()
@@ -126,7 +127,10 @@ fun WorkoutScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
-                GreetingSection(greeting = getGreeting())
+                GreetingSection(
+                    greeting = getGreeting(),
+                    onSettingsClick = onSettingsClick
+                )
             }
 
             item {
@@ -185,22 +189,46 @@ fun WorkoutScreen(
 }
 
 @Composable
-private fun GreetingSection(greeting: String) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Text(
-            text = greeting,
-            style = MaterialTheme.typography.headlineLarge,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-        Spacer(Modifier.height(4.dp))
-        Text(
-            text = "Let's crush your workout today!",
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        Spacer(Modifier.height(20.dp))
+private fun GreetingSection(
+    greeting: String,
+    onSettingsClick: () -> Unit = {}
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.Top
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = greeting,
+                style = MaterialTheme.typography.headlineLarge,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+            Spacer(Modifier.height(4.dp))
+            Text(
+                text = "Let's crush your workout today!",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        Box(
+            modifier = Modifier
+                .size(44.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                .clickable { onSettingsClick() },
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.settings),
+                contentDescription = "Settings",
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(22.dp)
+            )
+        }
     }
+    Spacer(Modifier.height(20.dp))
 }
 
 @Composable
