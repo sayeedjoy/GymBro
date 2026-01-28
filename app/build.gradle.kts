@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.sayeedjoy.gymbro"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.sayeedjoy.gymbro"
@@ -88,4 +88,7 @@ dependencies {
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
+
+    implementation(platform(libs.androidx.compose.bom))
+    implementation("androidx.compose.material3:material3")
 }

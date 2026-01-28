@@ -45,6 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -75,7 +76,7 @@ fun GymBroTopBar() {
             painter = painterResource(id = R.drawable.dumbbell),
             modifier = Modifier.size(32.dp),
             contentDescription = "App Icon",
-            tint = MaterialTheme.colorScheme.primary
+            tint = Color.Unspecified
         )
         Spacer(Modifier.width(10.dp))
         Text(
@@ -83,7 +84,7 @@ fun GymBroTopBar() {
             style = MaterialTheme.typography.headlineMedium.copy(
                 fontWeight = FontWeight.Bold
             ),
-            color = MaterialTheme.colorScheme.onSurface
+            color = Color.Black
         )
     }
 }
