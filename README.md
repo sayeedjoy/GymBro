@@ -1,48 +1,71 @@
-# 🏋️‍♂️ GymBro
+# GymBro
 
-**GymBro** is a modern workout tracker app built using **Jetpack Compose**, designed to help users manage their gym sessions with daily routines, dark mode support, and a clean UI. 💪
+A modern workout tracking app built with Jetpack Compose for Android. Track your daily exercises, monitor your progress, and stay consistent with your fitness routine.
 
-![thumb-scaled.png](https://sayeedjoy.com/wp-content/uploads/2025/05/thumb-scaled.png)
+![GymBro App](https://sayeedjoy.com/wp-content/uploads/2025/05/thumb-scaled.png)
 
-## ✨ Features
+## Features
 
-- 📅 **Today's Workout Screen**
-  - Displays your daily exercises based on the current day.
-  - Checkboxes to track completed sets.
-  - Automatically resets daily completion state.
+### Daily Workout Tracking
+- View today's exercises based on the current day of the week
+- Check off completed sets with interactive checkboxes
+- Visual progress ring showing completion percentage
+- Celebration message when all exercises are complete
+- Automatic daily reset of completion state
 
-- 📂 **All Workouts Screen**
-  - View all workouts grouped by weekday (e.g. Monday, Saturday).
-  - Tap to expand/collapse each day's exercises.
-  - Checkbox hidden for read-only clarity.
+### Weekly Schedule
+- Browse your complete workout plan organized by day
+- Expandable day cards with smooth animations
+- Clean, read-only view of all exercises and sets
+- Quick overview of active days and total exercises
 
-- ⚙️ **Settings Screen**
-  - Toggle between **Light** and **Dark** theme.
-  - Fully reactive UI updates.
+### Weight Tracking
+- Log your body weight over time
+- Visual line chart to track progress
+- Complete history of all weight entries
+- Swipe-to-delete functionality for easy management
 
-- 📱 **Material You UI**
-  - Built using **Material 3** and Jetpack Compose.
-  - Responsive layouts, elevation-less cards, and custom colors.
+### Customizable Appearance
+- Light and Dark theme support
+- System default option that follows device settings
+- Persistent theme preference using DataStore
+- Material 3 design with dynamic colors
 
+## Tech Stack
 
-## 🧱 Tech Stack
+- **UI Framework:** Jetpack Compose
+- **Design System:** Material 3
+- **Architecture:** MVVM (Model-View-ViewModel)
+- **State Management:** StateFlow and Compose State
+- **Database:** Room for weight tracking
+- **Preferences:** DataStore for theme settings
+- **Navigation:** Navigation Compose
+- **Async:** Kotlin Coroutines and Flow
 
-- 🧩 Jetpack Compose
-- ☀️ Material 3 Theme System
-- 🗃️ ViewModel + StateFlow for state management
-- 💾 Local storage (WorkoutCheckStateManager) for saving daily progress
-- 🧭 Navigation Compose
+## Architecture
 
+The app follows the MVVM architecture pattern:
 
-## 🏗 Architecture
+- **Model:** Data classes and local data sources (`Workout`, `WeightEntry`, Room DAOs)
+- **ViewModel:** Business logic and state management (`WorkoutViewModel`, `WeightViewModel`)
+- **View:** Composable UI screens (`HomeScreen`, `AllWorkoutScreen`, `WeightScreen`, `SettingsScreen`)
 
-In this app i have used **MVVM (Model-View-ViewModel)** architecture pattern.
-
-- **Model**: Contains workout data structures and local data source (`Workout`, `WorkoutCheckStateManager`, etc.)
-- **ViewModel**: Manages UI logic and state (`WorkoutViewModel`, `ThemeViewModel`)
-- **View**: Built entirely in Jetpack Compose (`WorkoutScreen`, `AllWorkoutScreen`, `SettingsScreen`)
-
-This architecture ensures:
-- Separation of concerns
+This ensures:
+- Clear separation of concerns
 - Lifecycle-aware state management
-- Reactive UI with `StateFlow` and `remember`
+- Reactive UI updates
+- Testable code structure
+
+## Getting Started
+
+1. Clone the repository
+2. Open the project in Android Studio (Ladybug or newer)
+3. Sync Gradle dependencies
+4. Run the app on an emulator or physical device
+
+## Requirements
+
+- Android Studio Ladybug or newer
+- Minimum SDK: 24 (Android 7.0)
+- Target SDK: 35 (Android 15)
+- Kotlin 1.9+
