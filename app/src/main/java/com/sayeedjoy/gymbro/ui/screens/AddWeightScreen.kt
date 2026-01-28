@@ -4,12 +4,19 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
@@ -18,28 +25,77 @@ fun AddWeightScreen(
     onSave: (dateEpochDay: Long, weightKg: Double) -> Unit,
     onCancel: () -> Unit
 ) {
-    var dateText by remember { mutableStateOf(LocalDate.now().toString()) }
+    var selectedDate by remember { mutableStateOf(LocalDate.now()) }
     var weightText by remember { mutableStateOf("") }
     var error by remember { mutableStateOf<String?>(null) }
+
+    val displayFormatter = remember {
+        DateTimeFormatter.ofPattern("EEEE, dd-MM-yyyy", Locale.getDefault())
+    }
+
+    var showDatePicker by remember { mutableStateOf(false) }
+    val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = selectedDate
+            .atStartOfDay(ZoneId.systemDefault())
+            .toInstant()
+            .toEpochMilli()
+    )
+
+    if (showDatePicker) {
+        DatePickerDialog(
+            onDismissRequest = { showDatePicker = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    val millis = datePickerState.selectedDateMillis
+                    if (millis != null) {
+                        selectedDate = Instant.ofEpochMilli(millis)
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate()
+                    }
+                    showDatePicker = false
+                }) { Text("OK") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDatePicker = false }) { Text("Cancel") }
+            }
+        ) {
+            DatePicker(state = datePickerState)
+        }
+    }
 
     Column(modifier = Modifier.fillMaxSize().padding(20.dp)) {
         Text("Add Weight Entry", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = dateText,
-            onValueChange = { dateText = it },
-            label = { Text("Date (YYYY-MM-DD)") },
+            value = selectedDate.format(displayFormatter),
+            onValueChange = {},
+            readOnly = true,
+            label = { Text("Date") },
+            trailingIcon = {
+                IconButton(onClick = { showDatePicker = true }) {
+                    Icon(Icons.Filled.DateRange, contentDescription = "Pick date")
+                }
+            },
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(16.dp))
 
         OutlinedTextField(
             value = weightText,
-            onValueChange = { weightText = it },
+            onValueChange = { input ->
+                val cleaned = input
+                    .replace(',', '.') // if user types comma, treat it as dot
+                val valid = cleaned.count { it == '.' } <= 1 && cleaned.all { it.isDigit() || it == '.' }
+                if (valid) weightText = cleaned
+            },
             label = { Text("Weight (kg)") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Decimal,
+                imeAction = ImeAction.Done
+            ),
+            singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -59,15 +115,8 @@ fun AddWeightScreen(
                     error = "Enter a valid weight (e.g., 72.5)"
                     return@Button
                 }
-
-                val parsedDate = try {
-                    LocalDate.parse(dateText.trim())
-                } catch (e: Exception) {
-                    error = "Date must be like 2026-01-28"
-                    return@Button
-                }
-
-                onSave(parsedDate.toEpochDay(), kg)
+                error = null
+                onSave(selectedDate.toEpochDay(), kg)
             }) {
                 Text("Save")
             }

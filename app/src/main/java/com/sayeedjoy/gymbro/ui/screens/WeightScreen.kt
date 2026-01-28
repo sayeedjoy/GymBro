@@ -30,6 +30,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sayeedjoy.gymbro.weight.WeightEntryEntity
 import com.sayeedjoy.gymbro.weight.WeightViewModel
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
@@ -84,7 +86,8 @@ fun WeightRecordCard(
     entry: WeightEntryEntity,
     onDelete: () -> Unit
 ) {
-    val date = LocalDate.ofEpochDay(entry.dateEpochDay)
+    val formatter = DateTimeFormatter.ofPattern("EEEE, dd-MM-yyyy", Locale.getDefault())
+    val dateText = LocalDate.ofEpochDay(entry.dateEpochDay).format(formatter)
 
     Card(modifier = Modifier.fillMaxWidth()) {
         Row(
@@ -93,10 +96,12 @@ fun WeightRecordCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(Modifier.weight(1f)) {
-                Text(text = date.toString(), style = MaterialTheme.typography.titleMedium)
+                Text(text = dateText, style = MaterialTheme.typography.titleMedium)
                 Text(text = "${entry.weightKg} kg", style = MaterialTheme.typography.bodyLarge)
             }
-            TextButton(onClick = onDelete) { Text("Delete") }
+            TextButton(onClick = onDelete) {
+                Text("Delete")
+            }
         }
     }
 }
