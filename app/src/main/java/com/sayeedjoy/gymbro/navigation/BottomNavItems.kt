@@ -32,7 +32,11 @@ sealed class BottomNavItem(
     )
 
     object Settings : BottomNavItem(
-        "settings", "Settings",
-        { Icon(Icons.Filled.Settings, contentDescription = "Settings") }
+        "settings", "Weight",
+        {
+            Icon(painterResource(R.drawable.fitness_center_24px)
+                , modifier = Modifier.size(20.dp),
+                contentDescription = "Settings")
+        }
     )
 }

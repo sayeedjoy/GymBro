@@ -9,6 +9,3 @@ data class Workout(
     val sets: String,
     val checked: Boolean = false
     )
-/*{
-    var checked by mutableStateOf(false)
-}*/
